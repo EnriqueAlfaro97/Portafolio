@@ -1,0 +1,142 @@
+---
+const nombre = "Ricardo Alfaro";
+const profesion = "Full Stack Developer & Systems Analyst";
+
+const misProyectos = [
+  {
+    nombre: "SICOTRA",
+    subtitulo: "Sistema de Control de Transporte",
+    resumen:
+      "Sistema de control logístico para gestión de flotas y consumo de combustible.",
+    detalles:
+      "Responsable del diseño y desarrollo de sistemas integrales y APIs. Implementé interfaces dinámicas con .NET Core y garantice la estabilidad mediante gestión avanzada en SQL Server. Utilicé metodologías ágiles para optimizar la eficiencia operativa.",
+    tech: [".NET Core", "SQL Server", "C#", "APIs", "Metodologías Ágiles"],
+    link: "https://github.com/tu-usuario/sitraco",
+  },
+  {
+    nombre: "AVCOSERVICES",
+    subtitulo: "Desarrollador Web",
+    resumen:
+      "Sistema Administrativo Web para gestión de entrenamientos y empleados.",
+    detalles:
+      "Diseño y desarrollo integral de un sistema administrativo web enfocado en la gestión de capital humano y programas de capacitación. Implementé una arquitectura eficiente utilizando PHP y MySQL, optimizando el control de registros mediante metodologías ágiles.",
+    tech: ["PHP", "JavaScript", "MySQL", "Bootstrap", "Metodologías Ágiles"],
+    link: "https://github.com/tu-usuario/avcoservices",
+  },
+];
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Portafolio - {nombre}</title>
+    <meta name="viewport" content="width=device-width" />
+
+    <style is:global>
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body class="bg-slate-900 text-slate-100 font-sans antialiased">
+    <main class="max-w-5xl mx-auto px-6 py-20">
+      <header class="mb-16 border-b border-slate-800 pb-10">
+        <h1 class="text-5xl font-extrabold text-white mb-2">{nombre}</h1>
+        <p class="text-xl text-blue-400 font-medium">{profesion}</p>
+        <p class="mt-4 text-slate-400 max-w-2xl">
+          Especialista en el desarrollo de soluciones empresariales robustas,
+          con experiencia en arquitecturas .NET, gestión de datos en SQL Server
+          y conocimientos en SAP ABAP/HANA.
+        </p>
+      </header>
+
+      <section>
+        <h2 class="text-2xl font-bold text-white mb-8 flex items-center">
+          <span class="bg-blue-500 w-8 h-1 mr-3"></span> Proyectos Destacados
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          {
+            misProyectos.map((proy) => (
+              <div
+                class="card-proyecto cursor-pointer bg-slate-800/50 border border-slate-700 p-8 rounded-2xl hover:border-blue-500 transition-all group"
+                data-info={JSON.stringify(proy)}
+              >
+                <h3 class="text-2xl font-bold text-white mb-1">
+                  {proy.nombre}
+                </h3>
+                <p class="text-blue-400 text-sm font-semibold mb-4">
+                  {proy.subtitulo}
+                </p>
+                <p class="text-slate-400">{proy.resumen}</p>
+                <div class="mt-6 text-blue-500 font-bold flex items-center gap-2">
+                  Ver detalles técnicos <span>→</span>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+
+<div
+  id="popup-inteligente"
+  class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm"
+>
+  <div
+    class="bg-slate-900 border-2 border-blue-500 w-full max-w-2xl rounded-3xl p-8 shadow-2xl relative animate-in fade-in zoom-in duration-300"
+  >
+    <button
+      id="cerrar-popup"
+      class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl"
+      >&times;</button
+    >
+
+    <div id="contenido-popup"></div>
+  </div>
+</div>
+
+<script is:inline>
+  const cards = document.querySelectorAll(".card-proyecto");
+  const popup = document.getElementById("popup-inteligente");
+  const contenido = document.getElementById("contenido-popup");
+  const btnCerrar = document.getElementById("cerrar-popup");
+
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      const info = JSON.parse(card.getAttribute("data-info"));
+
+      // Inyectamos el HTML dinámicamente
+      contenido.innerHTML = `
+        <h4 class="text-blue-400 font-bold text-3xl mb-2">${info.nombre}</h4>
+        <p class="text-slate-400 font-semibold mb-6">${info.subtitulo}</p>
+        
+        <div class="bg-slate-800/50 p-6 rounded-xl mb-6 border-l-4 border-blue-500">
+          <p class="text-slate-100 text-lg leading-relaxed">${info.detalles}</p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-8">
+          ${info.tech.map((t) => `<span class="bg-blue-900/30 text-blue-300 text-xs font-bold px-3 py-1 rounded-full border border-blue-800/50">#${t}</span>`).join("")}
+        </div>
+
+        <a href="${info.link}" target="_blank" class="block w-full bg-blue-600 text-white text-center py-4 rounded-xl font-black uppercase tracking-widest hover:bg-blue-700 transition-all">
+          Ir al Repositorio
+        </a>
+      `;
+
+      popup.classList.remove("hidden");
+      popup.classList.add("flex");
+    });
+  });
+
+  // Cerrar al clickear el botón o fuera del cuadro
+  const cerrar = () => {
+    popup.classList.add("hidden");
+    popup.classList.remove("flex");
+  };
+
+  btnCerrar.onclick = cerrar;
+  popup.onclick = (e) => {
+    if (e.target === popup) cerrar();
+  };
+</script>
