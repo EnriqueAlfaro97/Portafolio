@@ -131,9 +131,10 @@ const misProyectos = [
           ${info.tech.map((t) => `<span class="bg-blue-900/30 text-blue-300 text-xs font-bold px-3 py-1 rounded-full border border-blue-800/50">#${t}</span>`).join("")}
         </div>
 
-        <a href="${info.link}" target="_blank" class="block w-full bg-blue-600 text-white text-center py-4 rounded-xl font-black uppercase tracking-widest hover:bg-blue-700 transition-all">
+        ${/* <a href="${info.link}" target="_blank" class="block w-full bg-blue-600 text-white text-center py-4 rounded-xl font-black uppercase tracking-widest hover:bg-blue-700 transition-all">
           Ir al Repositorio
-        </a>
+        </a> 
+        */ ""}
       `;
 
       popup.classList.remove("hidden");
